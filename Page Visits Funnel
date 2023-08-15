@@ -110,38 +110,46 @@ head(all_data)
 
 ```{r error=TRUE}
 # define total_checkout here:
+total_checkout <- all_data %>% select(checkout_time)
 
-
+total_checkout_count <- nrow(total_checkout)
 ```
 
 ```{r error=TRUE}
 # define checkout_no_purchase here:
+checkout_no_purchase <- total_checkout %>% filter(is.na(checkout_time))
 
-
-
+checkout_no_purchase_count <- nrow(checkout_no_purchase)
 
 ```
 
 ```{r error=TRUE}
 # calculate checkout_no_purchase_percent here:
+checkout_no_purchase_percent <- checkout_no_purchase_count/total_checkout_count
 
-
+checkout_no_purchase_percent
 ```
 
 ```{r error=TRUE}
 # update all_data with time_to_purchase column here:
+visit_no_cart <- visits_cart %>%
+  filter(is.na(cart_time))
 
 
+all_data <- all_data %>%
+  mutate(time_to_purchase = purchase_time - visit_time)
 ```
 
 ```{r error=TRUE}
 # inspect the updated all_data data frame here:
-
+head(all_data)
 ```
 
 ```{r error=TRUE}
 # define time_to_purchase here:
-
+time_to_purchase <- all_data %>%
+  summarize(mean_time = mean(time_to_purchase, na.rm = TRUE))
+time_to_purchase
 
 
 ```
